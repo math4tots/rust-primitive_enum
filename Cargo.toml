@@ -1,6 +1,6 @@
 [package]
 name = "primitive_enum"
-version = "1.0.1"
+version = "1.0.2"
 authors = ["math4tots <math4tots@gmail.com>"]
 edition = "2018"
 license = "Apache-2.0"
