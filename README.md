@@ -12,7 +12,7 @@ between the underlying types).
 
 # Example
 
-```
+```rust
 #[macro_use] extern crate primitive_enum;
 
 primitive_enum! { MyEnum u16 ;
@@ -49,7 +49,7 @@ fn main() {
 
 As of the current version, the macro
 
-```
+```rust
 #[macro_use] extern crate primitive_enum;
 
 primitive_enum! { MyEnum u16 ;
@@ -64,7 +64,7 @@ primitive_enum! { MyEnum u16 ;
 
 is effectively equivalent to
 
-```
+```rust
 #[repr(u16)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum MyEnum {
