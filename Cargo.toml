@@ -8,6 +8,9 @@ homepage = "https://github.com/math4tots/rust-primitive_enum/"
 repository = "https://github.com/math4tots/rust-primitive_enum/"
 documentation = "https://github.com/math4tots/rust-primitive_enum/"
 readme = "README.md"
+description = """
+Little utility for dealing with enums no extra data in variants
+"""
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
