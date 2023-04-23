@@ -118,7 +118,7 @@
 //! }
 //! ```
 //!
-//! Starting from version 1.1.0 this create is implemented as a procedural macro
+//! Starting from version 1.1.0 this crate is implemented as a procedural macro
 //! to improve space efficiency of the generated code.
 //! Prior to version 1.1.0, this crate was implemented as a simple declarative macro.
 //!
