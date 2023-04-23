@@ -289,13 +289,7 @@ pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
                     if offset == 0 {
                         base_value_rep
                     } else {
-                        paren_token(
-                            vec![
-                                base_value_rep,
-                                punct_token('+'),
-                                int_token(offset),
-                            ]
-                        )
+                        paren_token(vec![base_value_rep, punct_token('+'), int_token(offset)])
                     }
                 }
                 None => int_token(offset),
@@ -347,6 +341,7 @@ pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
             ident_token("Hash"),
         ]),
     ]));
+    out.push(ident_token("pub"));
     out.push(ident_token("enum"));
     out.push(TokenTree::Ident(enum_identifier.clone()));
     out.push(brace_token({
@@ -368,7 +363,11 @@ pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
         let mut tokens = Vec::new();
 
         // pub fn from(x: u16) -> Option<MyEnum>
-        tokens.extend(vec![ident_token("fn"), ident_token("from")]);
+        tokens.extend(vec![
+            ident_token("pub"),
+            ident_token("fn"),
+            ident_token("from"),
+        ]);
         tokens.push(paren_token(concat(
             vec![ident_token("x"), punct_token(':')],
             repr_type.clone(),
@@ -411,7 +410,11 @@ pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
         }));
 
         // pub fn from_name(name: &str) -> Option<MyEnum>
-        tokens.extend(vec![ident_token("fn"), ident_token("from_name")]);
+        tokens.extend(vec![
+            ident_token("pub"),
+            ident_token("fn"),
+            ident_token("from_name"),
+        ]);
         tokens.push(paren_token(vec![
             ident_token("name"),
             punct_token(':'),
@@ -448,7 +451,11 @@ pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
         }));
 
         // pub fn list() -> &'static [MyEnum]
-        tokens.extend(vec![ident_token("fn"), ident_token("list")]);
+        tokens.extend(vec![
+            ident_token("pub"),
+            ident_token("fn"),
+            ident_token("list"),
+        ]);
         tokens.push(paren_token(vec![]));
         tokens.extend(punc2_tokens('-', '>'));
         tokens.push(punct_token('&'));
