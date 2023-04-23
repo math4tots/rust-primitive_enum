@@ -1,6 +1,6 @@
 [package]
 name = "primitive_enum"
-version = "1.0.2"
+version = "1.1.0"
 authors = ["math4tots <math4tots@gmail.com>"]
 edition = "2018"
 license = "Apache-2.0"
@@ -13,5 +13,8 @@ Little utility for dealing with enums no extra data in variants
 """
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+proc-macro = true
 
 [dependencies]

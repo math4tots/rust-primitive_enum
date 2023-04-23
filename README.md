@@ -98,6 +98,28 @@ impl MyEnum {
 }
 ```
 
+# Doc comments
+
+Starting from version 1.1.0, doc comments are supported.
+
+```rust
+primitive_enum! {
+/// Some comments about 'MyEnum'
+MyEnum u16 ;
+    A,
+    B,
+
+    /// Some special comments about variant C
+    C,
+    D = 500,
+    E,
+}
+```
+
+Starting from version 1.1.0 this create is implemented as a procedural macro
+to improve space efficiency of the generated code.
+Prior to version 1.1.0, this crate was implemented as a simple declarative macro.
+
 This crate is a clean macro implementation that
 expands to code shown above and doesn't rely on any
 outside dependencies or magic.
