@@ -339,8 +339,8 @@ pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
             ident_token("Eq"),
             punct_token(','),
             ident_token("Hash"),
-            punct_token(',')
-            ident_token("Default")
+            punct_token(','),
+            ident_token("Default"),
         ]),
     ]));
     out.push(ident_token("pub"));
