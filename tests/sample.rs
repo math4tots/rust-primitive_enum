@@ -196,4 +196,22 @@ mod tests {
         assert_eq!(MarkerType::from_name("Markerboxes"), Some(MarkerType::Markerboxes));
         assert_eq!(MarkerType::from_name("Markerpitlane"), Some(MarkerType::Markerpitlane));
     }
+
+    primitive_enum! { MarkerType2 u32 ;
+        A, // 0
+        B, // 1
+        C, // 2
+        D, // 3
+        E, // 4
+        #[default]
+        F, // 5
+        G, // 6
+    }
+
+    #[test]
+    fn test_enum_default() {
+        assert_eq!(MarkerType2::default(), MarkerType2::F);
+        assert_eq!(MarkerType2::from(0), Some(MarkerType2::A));
+        assert_eq!(MyEnum::default(), MyEnum::A);
+    }
 }

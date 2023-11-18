@@ -187,6 +187,25 @@ fn concat<T>(mut v1: Vec<T>, mut v2: Vec<T>) -> Vec<T> {
     v1
 }
 
+fn check_for_default(triples: &mut Vec<(TokenStream, Ident, TokenTree)>) {
+    let mut default_position: Option<usize> = None;
+    for (attributes, variant_name, variant_value) in triples.into_iter() {
+        if attributes.to_string().contains("default") {
+            if default_position.is_some() {
+                // error!("Multiple variants marked as default");
+            }
+            default_position = Some(variant_value.to_string().parse::<usize>().unwrap());
+        }
+    }
+    if !default_position.is_some() {
+        // No default specified, so we'll just use the first variant
+        triples[0].0.extend(vec![
+            punct_token('#'),
+            bracket_token(vec![ident_token("default")]).into(),
+        ]);
+    }
+}
+
 #[proc_macro]
 pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
     let mut iter = tokens.into_iter();
@@ -236,7 +255,7 @@ pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
         None => error!("Expected ';' but got end of macro"),
     }
 
-    let triples = {
+    let mut triples = {
         // Each triple contains information about a variant of the enum.
         // (Attributes, Identifier, Value-Expression)
         let mut triples = Vec::<(TokenStream, Ident, TokenTree)>::new();
@@ -322,7 +341,7 @@ pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
         ident_token("repr"),
         paren_token(repr_type.clone()),
     ]));
-
+    check_for_default(&mut triples); // make sure there's a default, if the user didn't specify one
     // #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
     out.push(punct_token('#'));
     out.push(bracket_token(vec![
@@ -343,6 +362,7 @@ pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
             ident_token("Default"),
         ]),
     ]));
+
     out.push(ident_token("pub"));
     out.push(ident_token("enum"));
     out.push(TokenTree::Ident(enum_identifier.clone()));
