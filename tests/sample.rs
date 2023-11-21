@@ -1,4 +1,5 @@
-#[macro_use] extern crate primitive_enum;
+#[macro_use]
+extern crate primitive_enum;
 
 #[cfg(test)]
 mod tests {
@@ -38,7 +39,6 @@ mod tests {
         assert_eq!(MyEnum::from(500), Some(D));
         assert_eq!(MyEnum::from(501), Some(E));
         assert_eq!(MyEnum::from(502), None);
-
     }
 
     #[test]
@@ -150,51 +150,186 @@ mod tests {
         assert_eq!(MarkerType::Markerboxes as u16, 43);
         assert_eq!(MarkerType::Markerpitlane as u16, 44);
 
-        assert_eq!(MarkerType::from_name("Markercone"), Some(MarkerType::Markercone));
-        assert_eq!(MarkerType::from_name("Markercylinder"), Some(MarkerType::Markercylinder));
-        assert_eq!(MarkerType::from_name("Markerarrow"), Some(MarkerType::Markerarrow));
-        assert_eq!(MarkerType::from_name("Markerarrowflat"), Some(MarkerType::Markerarrowflat));
-        assert_eq!(MarkerType::from_name("Markerflag"), Some(MarkerType::Markerflag));
-        assert_eq!(MarkerType::from_name("Markerringflag"), Some(MarkerType::Markerringflag));
-        assert_eq!(MarkerType::from_name("Markerring"), Some(MarkerType::Markerring));
-        assert_eq!(MarkerType::from_name("Markerplane"), Some(MarkerType::Markerplane));
-        assert_eq!(MarkerType::from_name("Markerbikelogo1"), Some(MarkerType::Markerbikelogo1));
-        assert_eq!(MarkerType::from_name("Markerbikelogo2"), Some(MarkerType::Markerbikelogo2));
-        assert_eq!(MarkerType::from_name("Markernum0"), Some(MarkerType::Markernum0));
-        assert_eq!(MarkerType::from_name("Markernum1"), Some(MarkerType::Markernum1));
-        assert_eq!(MarkerType::from_name("Markernum2"), Some(MarkerType::Markernum2));
-        assert_eq!(MarkerType::from_name("Markernum3"), Some(MarkerType::Markernum3));
-        assert_eq!(MarkerType::from_name("Markernum4"), Some(MarkerType::Markernum4));
-        assert_eq!(MarkerType::from_name("Markernum5"), Some(MarkerType::Markernum5));
-        assert_eq!(MarkerType::from_name("Markernum6"), Some(MarkerType::Markernum6));
-        assert_eq!(MarkerType::from_name("Markernum7"), Some(MarkerType::Markernum7));
-        assert_eq!(MarkerType::from_name("Markernum8"), Some(MarkerType::Markernum8));
-        assert_eq!(MarkerType::from_name("Markernum9"), Some(MarkerType::Markernum9));
-        assert_eq!(MarkerType::from_name("Markerchevron1"), Some(MarkerType::Markerchevron1));
-        assert_eq!(MarkerType::from_name("Markerchevron2"), Some(MarkerType::Markerchevron2));
-        assert_eq!(MarkerType::from_name("Markerchevron3"), Some(MarkerType::Markerchevron3));
-        assert_eq!(MarkerType::from_name("Markerringflat"), Some(MarkerType::Markerringflat));
-        assert_eq!(MarkerType::from_name("Markerlap"), Some(MarkerType::Markerlap));
-        assert_eq!(MarkerType::from_name("Markerhalo"), Some(MarkerType::Markerhalo));
-        assert_eq!(MarkerType::from_name("Markerhalopoint"), Some(MarkerType::Markerhalopoint));
-        assert_eq!(MarkerType::from_name("Markerhalorotate"), Some(MarkerType::Markerhalorotate));
-        assert_eq!(MarkerType::from_name("Markersphere"), Some(MarkerType::Markersphere));
-        assert_eq!(MarkerType::from_name("Markermoney"), Some(MarkerType::Markermoney));
-        assert_eq!(MarkerType::from_name("Markerlines"), Some(MarkerType::Markerlines));
-        assert_eq!(MarkerType::from_name("Markerbeast"), Some(MarkerType::Markerbeast));
-        assert_eq!(MarkerType::from_name("Markerquestionmark"), Some(MarkerType::Markerquestionmark));
-        assert_eq!(MarkerType::from_name("Markertransformplane"), Some(MarkerType::Markertransformplane));
-        assert_eq!(MarkerType::from_name("Markertransformhelicopter"), Some(MarkerType::Markertransformhelicopter));
-        assert_eq!(MarkerType::from_name("Markertransformboat"), Some(MarkerType::Markertransformboat));
-        assert_eq!(MarkerType::from_name("Markertransformcar"), Some(MarkerType::Markertransformcar));
-        assert_eq!(MarkerType::from_name("Markertransformbike"), Some(MarkerType::Markertransformbike));
-        assert_eq!(MarkerType::from_name("Markertransformpushbike"), Some(MarkerType::Markertransformpushbike));
-        assert_eq!(MarkerType::from_name("Markertransformtruck"), Some(MarkerType::Markertransformtruck));
-        assert_eq!(MarkerType::from_name("Markertransformparachute"), Some(MarkerType::Markertransformparachute));
-        assert_eq!(MarkerType::from_name("Markertransformthruster"), Some(MarkerType::Markertransformthruster));
-        assert_eq!(MarkerType::from_name("Markerwarp"), Some(MarkerType::Markerwarp));
-        assert_eq!(MarkerType::from_name("Markerboxes"), Some(MarkerType::Markerboxes));
-        assert_eq!(MarkerType::from_name("Markerpitlane"), Some(MarkerType::Markerpitlane));
+        assert_eq!(
+            MarkerType::from_name("Markercone"),
+            Some(MarkerType::Markercone)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markercylinder"),
+            Some(MarkerType::Markercylinder)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerarrow"),
+            Some(MarkerType::Markerarrow)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerarrowflat"),
+            Some(MarkerType::Markerarrowflat)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerflag"),
+            Some(MarkerType::Markerflag)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerringflag"),
+            Some(MarkerType::Markerringflag)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerring"),
+            Some(MarkerType::Markerring)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerplane"),
+            Some(MarkerType::Markerplane)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerbikelogo1"),
+            Some(MarkerType::Markerbikelogo1)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerbikelogo2"),
+            Some(MarkerType::Markerbikelogo2)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markernum0"),
+            Some(MarkerType::Markernum0)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markernum1"),
+            Some(MarkerType::Markernum1)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markernum2"),
+            Some(MarkerType::Markernum2)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markernum3"),
+            Some(MarkerType::Markernum3)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markernum4"),
+            Some(MarkerType::Markernum4)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markernum5"),
+            Some(MarkerType::Markernum5)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markernum6"),
+            Some(MarkerType::Markernum6)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markernum7"),
+            Some(MarkerType::Markernum7)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markernum8"),
+            Some(MarkerType::Markernum8)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markernum9"),
+            Some(MarkerType::Markernum9)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerchevron1"),
+            Some(MarkerType::Markerchevron1)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerchevron2"),
+            Some(MarkerType::Markerchevron2)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerchevron3"),
+            Some(MarkerType::Markerchevron3)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerringflat"),
+            Some(MarkerType::Markerringflat)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerlap"),
+            Some(MarkerType::Markerlap)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerhalo"),
+            Some(MarkerType::Markerhalo)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerhalopoint"),
+            Some(MarkerType::Markerhalopoint)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerhalorotate"),
+            Some(MarkerType::Markerhalorotate)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markersphere"),
+            Some(MarkerType::Markersphere)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markermoney"),
+            Some(MarkerType::Markermoney)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerlines"),
+            Some(MarkerType::Markerlines)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerbeast"),
+            Some(MarkerType::Markerbeast)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerquestionmark"),
+            Some(MarkerType::Markerquestionmark)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markertransformplane"),
+            Some(MarkerType::Markertransformplane)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markertransformhelicopter"),
+            Some(MarkerType::Markertransformhelicopter)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markertransformboat"),
+            Some(MarkerType::Markertransformboat)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markertransformcar"),
+            Some(MarkerType::Markertransformcar)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markertransformbike"),
+            Some(MarkerType::Markertransformbike)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markertransformpushbike"),
+            Some(MarkerType::Markertransformpushbike)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markertransformtruck"),
+            Some(MarkerType::Markertransformtruck)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markertransformparachute"),
+            Some(MarkerType::Markertransformparachute)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markertransformthruster"),
+            Some(MarkerType::Markertransformthruster)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerwarp"),
+            Some(MarkerType::Markerwarp)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerboxes"),
+            Some(MarkerType::Markerboxes)
+        );
+        assert_eq!(
+            MarkerType::from_name("Markerpitlane"),
+            Some(MarkerType::Markerpitlane)
+        );
     }
 
     primitive_enum! { MarkerType2 u32 ;
@@ -212,6 +347,5 @@ mod tests {
     fn test_enum_default() {
         assert_eq!(MarkerType2::default(), MarkerType2::F);
         assert_eq!(MarkerType2::from(0), Some(MarkerType2::A));
-        assert_eq!(MyEnum::default(), MyEnum::A);
     }
 }

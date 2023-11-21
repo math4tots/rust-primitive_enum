@@ -120,6 +120,52 @@ Starting from version 1.1.0 this crate is implemented as a procedural macro
 to improve space efficiency of the generated code.
 Prior to version 1.1.0, this crate was implemented as a simple declarative macro.
 
+# Default trait
+
+Originally, enums did not automatically get the `Default` trait. But starting from version `1.2.0`
+the enum will automatically derive `Default` if you specify `#[default]`.
+
+So for example, given
+
+```rust
+#[macro_use] extern crate primitive_enum;
+
+primitive_enum! {
+EnumWithDefault u16 ;
+    A,
+    B,
+    #[default]
+    C,
+    D,
+}
+
+fn main() {
+    assert_eq!(EnumWithDefault::default(), EnumWithDefault::C);
+}
+```
+
+the resulting code is effectively eqivalent to
+
+```rust
+#[repr(u16)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+pub enum EnumWithDefault {
+    A = 0,
+    B = 1,
+    #[default]
+    C = 2,
+    D = 3,
+}
+
+impl EnumWithDefault {
+    // ... (same as with the other example above)
+}
+
+fn main() {
+    assert_eq!(EnumWithDefault::default(), EnumWithDefault::C);
+}
+```
+
 This crate is a clean macro implementation that
 expands to code shown above and doesn't rely on any
 outside dependencies or magic.

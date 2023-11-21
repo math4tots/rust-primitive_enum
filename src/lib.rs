@@ -122,6 +122,52 @@
 //! to improve space efficiency of the generated code.
 //! Prior to version 1.1.0, this crate was implemented as a simple declarative macro.
 //!
+//! # Default trait
+//!
+//! Originally, enums did not automatically get the `Default` trait. But starting from version `1.2.0`
+//! the enum will automatically derive `Default` if you specify `#[default]`.
+//!
+//! So for example, given
+//!
+//! ```rust
+//! #[macro_use] extern crate primitive_enum;
+//!
+//! primitive_enum! {
+//! EnumWithDefault u16 ;
+//!     A,
+//!     B,
+//!     #[default]
+//!     C,
+//!     D,
+//! }
+//!
+//! fn main() {
+//!     assert_eq!(EnumWithDefault::default(), EnumWithDefault::C);
+//! }
+//! ```
+//!
+//! the resulting code is effectively eqivalent to
+//!
+//! ```rust
+//! #[repr(u16)]
+//! #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+//! pub enum EnumWithDefault {
+//!     A = 0,
+//!     B = 1,
+//!     #[default]
+//!     C = 2,
+//!     D = 3,
+//! }
+//!
+//! impl EnumWithDefault {
+//!     // ... (same as with the other example above)
+//! }
+//!
+//! fn main() {
+//!     assert_eq!(EnumWithDefault::default(), EnumWithDefault::C);
+//! }
+//! ```
+//!
 //! This crate is a clean macro implementation that
 //! expands to code shown above and doesn't rely on any
 //! outside dependencies or magic.
@@ -187,23 +233,23 @@ fn concat<T>(mut v1: Vec<T>, mut v2: Vec<T>) -> Vec<T> {
     v1
 }
 
-fn check_for_default(triples: &mut Vec<(TokenStream, Ident, TokenTree)>) {
-    let mut default_position: Option<usize> = None;
-    for (attributes, _variant_name, variant_value) in triples.into_iter() {
+fn check_for_default(triples: &mut Vec<(TokenStream, Ident, TokenTree)>) -> Result<bool, String> {
+    let mut found_default = false;
+    for (attributes, _variant_name, _variant_value) in triples.into_iter() {
         if attributes.to_string().contains("default") {
-            if default_position.is_some() {
-                // error!("Multiple variants marked as default");
+            if found_default {
+                // TODO: Currently, rustc panics when user specifies more than one default.
+                // Ideally, we should just pass what we get from the user and let the compiler handle the
+                // error. But it looks like there might already be a pr out to address this issue.
+                // Remove this error handling logic when the fix pr is merged and released.
+                // See https://github.com/rust-lang/rust/issues/118119
+                // and https://github.com/rust-lang/rust/pull/118131
+                return Err(format!("Multiple variants marked as default"));
             }
-            default_position = Some(variant_value.to_string().parse::<usize>().unwrap());
+            found_default = true;
         }
     }
-    if !default_position.is_some() {
-        // No default specified, so we'll just use the first variant
-        triples[0].0.extend(vec![
-            punct_token('#'),
-            bracket_token(vec![ident_token("default")]).into(),
-        ]);
-    }
+    Ok(found_default)
 }
 
 #[proc_macro]
@@ -255,7 +301,7 @@ pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
         None => error!("Expected ';' but got end of macro"),
     }
 
-    let triples = {
+    let (triples, has_default) = {
         // Each triple contains information about a variant of the enum.
         // (Attributes, Identifier, Value-Expression)
         let mut triples = Vec::<(TokenStream, Ident, TokenTree)>::new();
@@ -321,8 +367,12 @@ pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
             offset += 1;
             triples.push((variant_attributes, variant_name, value));
         }
-        check_for_default(&mut triples); // make sure there's a default, if the user didn't specify one
-        triples
+        // make sure there's a default, even if the user didn't specify one
+        let has_default = match check_for_default(&mut triples) {
+            Err(message) => error!(message),
+            Ok(has_default) => has_default,
+        };
+        (triples, has_default)
     };
 
     ////////////////////////////////////////////////////////////////////
@@ -346,21 +396,26 @@ pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
     out.push(punct_token('#'));
     out.push(bracket_token(vec![
         ident_token("derive"),
-        paren_token(vec![
-            ident_token("Debug"),
-            punct_token(','),
-            ident_token("Clone"),
-            punct_token(','),
-            ident_token("Copy"),
-            punct_token(','),
-            ident_token("PartialEq"),
-            punct_token(','),
-            ident_token("Eq"),
-            punct_token(','),
-            ident_token("Hash"),
-            punct_token(','),
-            ident_token("Default"),
-        ]),
+        paren_token({
+            let mut derive_list: Vec<TokenTree> = vec![
+                ident_token("Debug"),
+                punct_token(','),
+                ident_token("Clone"),
+                punct_token(','),
+                ident_token("Copy"),
+                punct_token(','),
+                ident_token("PartialEq"),
+                punct_token(','),
+                ident_token("Eq"),
+                punct_token(','),
+                ident_token("Hash"),
+            ];
+            if has_default {
+                derive_list.push(punct_token(','));
+                derive_list.push(ident_token("Default"));
+            }
+            derive_list
+        }),
     ]));
 
     out.push(ident_token("pub"));
