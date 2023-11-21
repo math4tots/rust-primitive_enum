@@ -255,7 +255,7 @@ pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
         None => error!("Expected ';' but got end of macro"),
     }
 
-    let mut triples = {
+    let triples = {
         // Each triple contains information about a variant of the enum.
         // (Attributes, Identifier, Value-Expression)
         let mut triples = Vec::<(TokenStream, Ident, TokenTree)>::new();
@@ -321,6 +321,7 @@ pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
             offset += 1;
             triples.push((variant_attributes, variant_name, value));
         }
+        check_for_default(&mut triples); // make sure there's a default, if the user didn't specify one
         triples
     };
 
@@ -341,7 +342,6 @@ pub fn primitive_enum(tokens: TokenStream) -> TokenStream {
         ident_token("repr"),
         paren_token(repr_type.clone()),
     ]));
-    check_for_default(&mut triples); // make sure there's a default, if the user didn't specify one
     // #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
     out.push(punct_token('#'));
     out.push(bracket_token(vec![
