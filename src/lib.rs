@@ -189,7 +189,7 @@ fn concat<T>(mut v1: Vec<T>, mut v2: Vec<T>) -> Vec<T> {
 
 fn check_for_default(triples: &mut Vec<(TokenStream, Ident, TokenTree)>) {
     let mut default_position: Option<usize> = None;
-    for (attributes, variant_name, variant_value) in triples.into_iter() {
+    for (attributes, _variant_name, variant_value) in triples.into_iter() {
         if attributes.to_string().contains("default") {
             if default_position.is_some() {
                 // error!("Multiple variants marked as default");
